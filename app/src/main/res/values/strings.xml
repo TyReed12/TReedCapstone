@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Tyler Capstone</string>
 
-    <string name="label_emailpassword">IsTheCabLit?</string>
+    <string name="label_emailpassword">Cab Lit Home</string>
     <string name="desc_emailpassword">Use an email and password to authenticate with Firebase.</string>
 
 

@@ -245,7 +245,7 @@ public class EmailPasswordActivity extends BaseActivity implements
         }
     }
 
-    private void startCheckin() {
+    public void startCheckin() {
         startActivity(new Intent(EmailPasswordActivity.this, CheckInActivity.class));
     }
 
