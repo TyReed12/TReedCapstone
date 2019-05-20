@@ -16,11 +16,13 @@
 
 package com.AD490.TReedCapstone;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,8 +40,10 @@ public class EmailPasswordActivity extends BaseActivity implements
 
     private TextView mStatusTextView;
     private TextView mDetailTextView;
+    private TextView mNameTextView;
     private EditText mEmailField;
     private EditText mPasswordField;
+
 
     // [START declare_auth]
     private FirebaseAuth mAuth;
@@ -53,6 +57,7 @@ public class EmailPasswordActivity extends BaseActivity implements
         // Views
         mStatusTextView = findViewById(R.id.status);
         mDetailTextView = findViewById(R.id.detail);
+        //mNameTextView = findViewById(R.id.displayName);
         mEmailField = findViewById(R.id.fieldEmail);
         mPasswordField = findViewById(R.id.fieldPassword);
 
@@ -61,6 +66,7 @@ public class EmailPasswordActivity extends BaseActivity implements
         findViewById(R.id.emailCreateAccountButton).setOnClickListener(this);
         findViewById(R.id.signOutButton).setOnClickListener(this);
         findViewById(R.id.verifyEmailButton).setOnClickListener(this);
+        findViewById(R.id.checkInBtn).setOnClickListener(this);
 
         // [START initialize_auth]
         // Initialize Firebase Auth
@@ -214,14 +220,18 @@ public class EmailPasswordActivity extends BaseActivity implements
 
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
+
+        //if user is already logged in
         if (user != null) {
             mStatusTextView.setText(getString(R.string.emailpassword_status_fmt,
                     user.getEmail(), user.isEmailVerified()));
             mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
+            //mNameTextView.setText("Welcome Back {user.displayName()}");
 
             findViewById(R.id.emailPasswordButtons).setVisibility(View.GONE);
             findViewById(R.id.emailPasswordFields).setVisibility(View.GONE);
             findViewById(R.id.signedInButtons).setVisibility(View.VISIBLE);
+            findViewById(R.id.checkInBtn).setVisibility(View.VISIBLE);
 
             findViewById(R.id.verifyEmailButton).setEnabled(!user.isEmailVerified());
         } else {
@@ -231,7 +241,12 @@ public class EmailPasswordActivity extends BaseActivity implements
             findViewById(R.id.emailPasswordButtons).setVisibility(View.VISIBLE);
             findViewById(R.id.emailPasswordFields).setVisibility(View.VISIBLE);
             findViewById(R.id.signedInButtons).setVisibility(View.GONE);
+            findViewById(R.id.checkInBtn).setVisibility(View.GONE);
         }
+    }
+
+    private void startCheckin() {
+        startActivity(new Intent(EmailPasswordActivity.this, CheckInActivity.class));
     }
 
     @Override
@@ -245,6 +260,8 @@ public class EmailPasswordActivity extends BaseActivity implements
             signOut();
         } else if (i == R.id.verifyEmailButton) {
             sendEmailVerification();
+        } else if (i == R.id.checkInBtn) {
+            startCheckin();
         }
     }
 }
